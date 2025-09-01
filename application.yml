@@ -1,4 +1,4 @@
-spring.application.name=config-default.yml
+spring.application.name=config-default
 eureka.client.register-with-eureka=true
 eureka.instance.prefer-Ip-Address=true
 eureka.client.fetch-registry=true
