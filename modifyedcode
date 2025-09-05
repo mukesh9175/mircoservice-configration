@@ -1,0 +1,41 @@
+@Override
+public UserDTO getUserById(int userId) {
+    // Fetch user from repository
+    User user = userRepository.findById(userId)
+            .orElseThrow(() -> new UserNotfoundException(
+                    "User with given id not found on server!! : " + userId));
+
+    try {
+        // Fetch ratings by userId
+        RatingResponces<List<RatingDTO>> response = ratingServices.getRating(String.valueOf(user.getUserId()));
+        List<RatingDTO> ratingList = response.getData();
+
+        if (ratingList != null && !ratingList.isEmpty()) {
+            // Keep only ratings with valid hotel
+            List<RatingDTO> ratingWithHotel = ratingList.stream()
+                    .map(rating -> {
+                        try {
+                            HotelDTO hotelDTO = hotelServices.getHotel(rating.getHotelId()).getData();
+                            rating.setHotel(hotelDTO);
+                            return rating;
+                        } catch (Exception e) {
+                            System.out.println("Skipping rating for deleted hotelId: " + rating.getHotelId());
+                            return null;
+                        }
+                    })
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toList());
+            user.setRatings(ratingWithHotel);
+        } else {
+            // No ratings found; set empty list or leave null
+            user.setRatings(Collections.emptyList());
+        }
+    } catch (Exception e) {
+        // In case rating service fails, log and return user without ratings
+        System.out.println("Rating service unavailable or failed: " + e.getMessage());
+        user.setRatings(Collections.emptyList());
+    }
+
+    // Convert and return UserDTO
+    return usermapper.EntityToDTO(user);
+}
