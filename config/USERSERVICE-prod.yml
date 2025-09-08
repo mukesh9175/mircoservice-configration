@@ -2,10 +2,11 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/userdb_prod
     username: root
-    password: yourpassword
+    password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
       ddl-auto: validate
     show-sql: false
     database-platform: org.hibernate.dialect.MySQLDialect
+
