@@ -25,7 +25,7 @@ management:
 resilience4j:
   circuitbreaker:
     instances:
-      ratingHotelBraeker:        
+      ratingHotelBreaker:   # fixed spelling from Braeker -> Breaker
         registerHealthIndicator: true
         slidingWindowType: COUNT_BASED
         slidingWindowSize: 10
@@ -35,3 +35,10 @@ resilience4j:
         failureRateThreshold: 50
         eventConsumerBufferSize: 10
         automaticTransitionFromOpenToHalfOpenEnabled: true
+
+  retry:
+    instances:
+      ratingHotelRetry:
+        max-attempts: 3                # total attempts (1 + 2 retries)
+        wait-duration: 2s              # wait between retries
+        
