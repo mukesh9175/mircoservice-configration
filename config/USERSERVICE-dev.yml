@@ -36,11 +36,13 @@ resilience4j:
         eventConsumerBufferSize: 10
         automaticTransitionFromOpenToHalfOpenEnabled: true
 
-  retry:
-    instances:
-      ratingHotelretry:
-        max-attempts: 3                # total attempts (1 + 2 retries)
-        wait-duration: 2s              # wait between retries
+ retry:
+  instances:
+    ratingHotelRetry:
+      max-attempts: 3
+      wait-duration: 2s
+            
         
+
 
 
