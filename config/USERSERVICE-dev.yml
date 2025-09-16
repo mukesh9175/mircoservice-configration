@@ -38,7 +38,8 @@ resilience4j:
 
   retry:
     instances:
-      ratingHotelRetry:
+      ratingHotelBreaker:
         max-attempts: 3                # total attempts (1 + 2 retries)
         wait-duration: 2s              # wait between retries
         
+
